@@ -1,0 +1,124 @@
+:root {
+  --playerO: #de67fb;
+  --playerX: #c3ff00;
+  --dark: rgb(12, 11, 15);
+  --light: #dbdbdb;
+  --tileSize: 80px;
+  --black: #000;
+  --reset-btn-width: 150px;
+  --reset-btn-height: 60px;
+}
+
+body {
+  background-color: var(--dark);
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--light);
+  font-size: 25px;
+}
+
+button {
+  font-family: inherit;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.hide {
+  display: none;
+}
+.color-playerO {
+  color: var(--playerO);
+}
+
+.color-playerX {
+  color: var(--playerX);
+}
+
+.game-tile-container {
+  display: grid;
+  grid-template-columns: repeat(3, var(--tileSize));
+}
+
+.game-tile {
+  font-family: "Moon Dance", cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: var(--tileSize);
+  background: none;
+  border: 1px solid var(--light);
+  cursor: pointer;
+  font-size: 35px;
+  transition: 350ms ease-in-out;
+}
+
+.reset-button {
+  background-color: var(--dark);
+  border: none;
+  width: var(--reset-btn-width);
+  height: var(--reset-btn-height);
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.reset-button::before {
+  content: "";
+  position: absolute;
+  width: 300%;
+  height: 300%;
+  background: conic-gradient(var(--playerX) 20deg, transparent 120deg);
+  animation: rotate 2s infinite linear;
+}
+.reset-button::after {
+  content: "Reset game";
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: calc(var(--reset-btn-width) - 4px);
+  height: calc(var(--reset-btn-height) - 4px);
+  border-radius: 5px;
+  color: var(--light);
+  left: 2px;
+  top: 2px;
+
+  box-shadow: 0 0 20px inset var(--black);
+  background-color: var(--dark);
+}
+
+@keyframes rotate {
+  0% {
+    rotate: 0deg;
+  }
+
+  100% {
+    rotate: -360deg;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    gap: 45px;
+    justify-content: center;
+  }
+  :root {
+    --tileSize: 100px;
+  }
+}
