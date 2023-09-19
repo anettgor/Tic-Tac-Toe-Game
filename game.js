@@ -3,6 +3,7 @@ const tiles = document.querySelectorAll(".game-tile");
 const reset = document.querySelector(".reset-button");
 const currentPlayerIndicator = document.querySelector(".current-player");
 const playerContainer = document.querySelector(".current-player-container");
+const gameTileContainer = document.querySelector(".game-tile-container");
 const winnerPlayer = document.querySelector(".winner");
 const winnerContainer = document.querySelector(".winner-container");
 const WIN_SEQUENCES = [
@@ -23,24 +24,27 @@ const changeTurn = () => (turn = turn === playerO ? playerX : playerO);
 const isWinner = (player) => WIN_SEQUENCES.some((sequence) => {
     return sequence.every((position) => player.includes(position));
 });
+const setBoardToGameOver = () => {
+    gameOver = true;
+    gameTileContainer === null || gameTileContainer === void 0 ? void 0 : gameTileContainer.classList.add("disable");
+    playerContainer === null || playerContainer === void 0 ? void 0 : playerContainer.classList.add("hide");
+    winnerContainer === null || winnerContainer === void 0 ? void 0 : winnerContainer.classList.remove("hide");
+    tiles.forEach((tile) => tile.setAttribute("disabled", "true"));
+};
 const showWinner = () => {
     if (isWinner(turn)) {
-        gameOver = true;
+        setBoardToGameOver();
         if (winnerPlayer) {
             winnerPlayer.textContent =
                 turn === playerO ? "Player O Congrats!" : "Player X Congrats!";
             winnerPlayer.classList.add(turn === playerO ? "color-playerO" : "color-playerX");
         }
-        playerContainer === null || playerContainer === void 0 ? void 0 : playerContainer.classList.add("hide");
-        winnerContainer === null || winnerContainer === void 0 ? void 0 : winnerContainer.classList.remove("hide");
     }
     else if (playerO.length + playerX.length === 9) {
-        gameOver = true;
+        setBoardToGameOver();
         if (winnerPlayer) {
             winnerPlayer.textContent = "TIE";
         }
-        playerContainer === null || playerContainer === void 0 ? void 0 : playerContainer.classList.add("hide");
-        winnerContainer === null || winnerContainer === void 0 ? void 0 : winnerContainer.classList.remove("hide");
     }
 };
 const move = () => {
@@ -54,7 +58,6 @@ const move = () => {
                         turn === playerX ? "PLAYER O" : "PLAYER X";
                     turn.push(+tile.id);
                     tile.setAttribute("disabled", "true");
-                    tile.innerHTML = turn === playerO ? "O" : "X";
                     tile.textContent = turn === playerO ? "O" : "X";
                     tile.classList.add(turn === playerO ? "color-playerO" : "color-playerX");
                     showWinner();
@@ -75,6 +78,7 @@ const resetGame = () => {
     playerX = [];
     playerO = [];
     turn = playerO;
+    gameTileContainer === null || gameTileContainer === void 0 ? void 0 : gameTileContainer.classList.remove("disable");
     playerContainer === null || playerContainer === void 0 ? void 0 : playerContainer.classList.remove("hide");
     winnerContainer === null || winnerContainer === void 0 ? void 0 : winnerContainer.classList.add("hide");
     winnerPlayer === null || winnerPlayer === void 0 ? void 0 : winnerPlayer.classList.remove("color-playerO", "color-playerX");

@@ -21,10 +21,6 @@ body {
   font-size: 25px;
 }
 
-button {
-  font-family: inherit;
-}
-
 ul,
 li {
   padding: 0;
@@ -35,6 +31,12 @@ li {
 .hide {
   display: none;
 }
+
+.disable {
+  opacity: 0.3;
+  transition: 150ms ease-in-out;
+}
+
 .color-playerO {
   color: var(--playerO);
 }
@@ -55,11 +57,15 @@ li {
   align-items: center;
   width: 100%;
   height: var(--tileSize);
+  cursor: pointer;
   background: none;
   border: 1px solid var(--light);
-  cursor: pointer;
   font-size: 35px;
   transition: 350ms ease-in-out;
+}
+
+.game-tile:is(:disabled) {
+  cursor: default;
 }
 
 .reset-button {
@@ -82,23 +88,32 @@ li {
   position: absolute;
   width: 300%;
   height: 300%;
-  background: conic-gradient(var(--playerX) 20deg, transparent 120deg);
-  animation: rotate 2s infinite linear;
+  background-image: conic-gradient(
+      from 0deg at 50% 50%,
+      var(--playerO) 0%,
+      #de67fb00 30%
+    ),
+    conic-gradient(
+      from 0deg at 50% 50%,
+      #00ffff00 50%,
+      var(--playerX) 50%,
+      #c3ff0000 76%
+    );
+  animation: rotate 3s infinite linear;
 }
 .reset-button::after {
   content: "Reset game";
+  position: absolute;
+  color: var(--light);
   text-transform: uppercase;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
   width: calc(var(--reset-btn-width) - 4px);
   height: calc(var(--reset-btn-height) - 4px);
   border-radius: 5px;
-  color: var(--light);
   left: 2px;
   top: 2px;
-
   box-shadow: 0 0 20px inset var(--black);
   background-color: var(--dark);
 }

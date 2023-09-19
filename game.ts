@@ -2,6 +2,7 @@ const tiles = document.querySelectorAll(".game-tile");
 const reset = document.querySelector(".reset-button");
 const currentPlayerIndicator = document.querySelector(".current-player");
 const playerContainer = document.querySelector(".current-player-container");
+const gameTileContainer = document.querySelector(".game-tile-container");
 const winnerPlayer = document.querySelector(".winner");
 const winnerContainer = document.querySelector(".winner-container");
 
@@ -32,9 +33,17 @@ const isWinner = (player: any): boolean =>
     return sequence.every((position) => player.includes(position));
   });
 
+const setBoardToGameOver = () => {
+  gameOver = true;
+  gameTileContainer?.classList.add("disable");
+  playerContainer?.classList.add("hide");
+  winnerContainer?.classList.remove("hide");
+  tiles.forEach((tile) => tile.setAttribute("disabled", "true"));
+};
+
 const showWinner = () => {
   if (isWinner(turn)) {
-    gameOver = true;
+    setBoardToGameOver();
     if (winnerPlayer) {
       winnerPlayer.textContent =
         turn === playerO ? "Player O Congrats!" : "Player X Congrats!";
@@ -42,15 +51,11 @@ const showWinner = () => {
         turn === playerO ? "color-playerO" : "color-playerX"
       );
     }
-    playerContainer?.classList.add("hide");
-    winnerContainer?.classList.remove("hide");
   } else if (playerO.length + playerX.length === 9) {
-    gameOver = true;
+    setBoardToGameOver();
     if (winnerPlayer) {
       winnerPlayer.textContent = "TIE";
     }
-    playerContainer?.classList.add("hide");
-    winnerContainer?.classList.remove("hide");
   }
 };
 
@@ -68,7 +73,6 @@ const move = () => {
               turn === playerX ? "PLAYER O" : "PLAYER X";
             turn.push(+tile.id);
             tile.setAttribute("disabled", "true");
-            tile.innerHTML = turn === playerO ? "O" : "X";
             tile.textContent = turn === playerO ? "O" : "X";
             tile.classList.add(
               turn === playerO ? "color-playerO" : "color-playerX"
@@ -94,6 +98,7 @@ const resetGame = () => {
   playerX = [];
   playerO = [];
   turn = playerO;
+  gameTileContainer?.classList.remove("disable");
   playerContainer?.classList.remove("hide");
   winnerContainer?.classList.add("hide");
 
